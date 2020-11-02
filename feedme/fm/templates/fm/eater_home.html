@@ -1,0 +1,57 @@
+{% extends 'fm/base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mb-8">
+    <h1 class="text-3xl mb-8 dark:text-white">Home</h1>
+
+    <h3 class="text-xl dark:text-white">Meals yet to be started</h3>
+    <ul class="mb-8">
+        {% for meal in not_started_meals %}
+            <li>
+                <div class="flex group">
+                    <a href="{% url 'view_meal' meal.id %}" class="text-xl font-bold text-blue-600 dark:text-white">{{ meal.name }}</a>
+                    {% if request.user.eater %}
+                        <a href="{% url 'favorite_meal' meal.id %}" class="self-end mb-1 ml-3 text-xs invisible group-hover:visible dark:text-white">Favorite</a>
+                    {% endif %}
+                </div>
+            </li>
+        {% empty %}
+            <li class="dark:text-white">Add a new meal for yourself</li>
+        {% endfor %}
+    </ul>
+
+
+    <h3 class="text-xl dark:text-white">Your current meals in progress</h3>
+    <ul class="mb-8">
+        {% for meal in meals_in_progress %}
+            <li>
+                <div class="flex group">
+                    <a href="{% url 'view_meal' meal.id %}" class="text-xl font-bold text-blue-600 dark:text-white">{{ meal.name }}</a>
+                    {% if request.user.eater %}
+                        <a href="{% url 'favorite_meal' meal.id %}" class="self-end mb-1 ml-3 text-xs invisible group-hover:visible dark:text-white">Favorite</a>
+                    {% endif %}
+                </div>
+                <p class="text-sm dark:text-white">{{ meal.get_status_display }}</p>
+            </li>
+        {% empty %}
+            <li class="dark:text-white">No meals being prepared for you at the moment.</li>
+        {% endfor %}
+    </ul>
+
+    <h3 class="text-xl dark:text-white">Your previously finished meals</h3>
+    <ul>
+        {% for meal in finished_meals %}
+            <li class="flex group">
+                <a href="{% url 'view_meal' meal.id %}" class="text-xl text-blue-600 dark:text-white">{{ meal.name }}</a>
+                {% if request.user.eater %}
+                    <a href="{% url 'favorite_meal' meal.id %}" class="self-end mb-1 ml-3 text-xs invisible group-hover:visible dark:text-white">Favorite</a>
+                {% endif %}
+            </li>
+        {% empty %}
+        <li class="dark:text-white">Create another <a class="font-bold text-blue-600 dark:text-white" href="{% url 'new_meal' %}">meal</a>...</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

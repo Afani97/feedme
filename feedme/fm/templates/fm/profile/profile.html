@@ -1,0 +1,80 @@
+{% extends 'fm/base.html' %}
+
+{% block title %} Profile {% endblock %}
+
+{% block content %}
+    {% if type == 'eater' %}
+
+        <div class="max-w-2xl mx-auto mb-8">
+            <div class="flex content-center justify-center my-8">
+                {% if profile_image %}
+                    <img src="data:image/jpeg;base64,{{profile_image}}" class="rounded-full h-24 w-24 mr-5"/>
+                {% endif %}
+                <div class="self-center">
+                    <h1 class="text-xl dark:text-white">{{ profile.name }}</h1>
+                    <p class="dark:text-white">{{ user.email }}</p>
+                     {% for a in profile.address.all %}
+                        <p class="text-sm dark:text-white">{{a.street_name}}, {{a.city}}, {{a.state}}</p>
+                     {% endfor %}
+                    <a class="text-xs underline dark:text-white" href="{% url 'edit_eater_profile' %}" role="button">Edit</a>
+                </div>
+            </div>
+
+            {% if favorite_meal %}
+                <p class="dark:text-white">Favorite meal: <a href="{% url 'view_meal' favorite_meal.id %}">{{ favorite_meal }}</a></p>
+            {% endif %}
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 grid-gap-2 gap-y-4 my-8">
+                <div>
+                    <p class="text-lg dark:text-white"><strong>Dietary restrictions</strong></p>
+                    {% for dr in profile.diet_restrictions.all %}
+                        <p class="dark:text-white">{{dr.name}}</p>
+                    {% empty %}
+                        <p class="dark:text-white">Edit profile to add...</p>
+                    {% endfor %}
+                </div>
+                <div>
+                    <p class="text-lg dark:text-white"><strong>Food preferences</strong></p>
+                    {% for fp in profile.food_preferences.all %}
+                        <p class="dark:text-white">{{fp.name}}</p>
+                    {% empty %}
+                        <p class="dark:text-white">Edit profile to add...</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div>
+                <p class="text-lg dark:text-white"><strong>Meals created</strong></p>
+                {% for m in profile.meals.all %}
+                    <div class="flex">
+                        <a href="{% url 'view_meal' m.id %}" class="mr-5 dark:text-white">{{m.name}}</a>
+                        <div>
+                            <a class="text-sm dark:text-white mr-1" href="{% url 'edit_meal' m.id %}">Edit</a>
+                            <a class="text-sm text-red-500" href="{% url 'delete_meal' m.id %}">Delete</a>
+                        </div>
+
+                    </div>
+                {% empty %}
+                    <p class="dark:text-white">No meals created yet...</p>
+                {% endfor %}
+            </div>
+        </div>
+
+    {% elif type == 'cook' %}
+
+        <div class="max-w-2xl mx-auto">
+            <div class="flex content-center justify-center my-8">
+                {% if profile_image %}
+                    <img src="data:image/jpeg;base64,{{profile_image}}" class="rounded-full h-24 w-24 mr-5"/>
+                {% endif %}
+                <div class="self-center">
+                    <h1 class="text-xl dark:text-white">{{ profile.name }}</h1>
+                    <p class="dark:text-white">{{ user.email }}</p>
+                        <p class="text-sm dark:text-white">{{ profile.speciality }}</p>
+                    <a class="text-xs underline dark:text-white" href="{% url 'edit_cook_profile' %}" role="button">Edit</a>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+{% endblock %}

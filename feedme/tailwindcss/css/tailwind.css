@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.fm-text-input {
+    @apply rounded pl-2 text-xl border border-solid border-gray-400;
+}
+
+.fm-button {
+    @apply bg-blue-300 rounded px-4 py-2;
+}

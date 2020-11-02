@@ -1,0 +1,32 @@
+{% extends 'fm/base.html' %}
+{% load fm_tags %}
+
+{% block title %} New Meal {% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto">
+    <h1 class="text-3xl mb-4 dark:text-white">New Meal</h1>
+
+    {% if form.errors %}
+      <p class="text-red-600 font-bold dark:text-red-500">Error adding new meal</p>
+    {% endif %}
+
+    <form method="post" class="mb-8 space-y-4">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="block sm:flex">
+                <div class="w-full sm:w-1/3">
+                    <div class="mr-2 text-xl dark:text-white">{{ field.label }}:</div>
+                    <div class="text-xs dark:text-white">{{ field.help_text }}</div>
+                </div>
+                {{ field | addclass:'fm-text-input w-full sm:w-2/3 dark:bg-gray-600 dark:placeholder-white dark:text-white'}}
+            </div>
+        {% endfor %}
+        <div class="flex justify-between content-center">
+            <a class="self-center dark:text-white" href="{% url 'home' %}">Cancel</a>
+            <button class="fm-button" type="submit">Create new meal</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

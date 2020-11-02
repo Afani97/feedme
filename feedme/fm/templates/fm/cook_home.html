@@ -1,0 +1,68 @@
+{% extends 'fm/base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mb-8">
+    <h1 class="text-3xl mb-8 dark:text-white">Home</h1>
+
+    <h3 class="text-xl dark:text-white">Meals yet to be started</h3>
+    <ul class="mb-8">
+        {% for meal in not_started_meals %}
+            <li class="flex">
+                <a href="{% url 'view_meal' meal.id %}"
+                   class="text-xl mr-5 font-bold text-blue-600 dark:text-white">
+                    {{ meal.name }}
+                </a>
+                <a href="{% url 'start_meal' meal.id %}" class="fm-button text-sm"> Start cooking </a>
+            </li>
+        {% empty %}
+            <li class="dark:text-white">No meals left.</li>
+        {% endfor %}
+    </ul>
+
+
+    <h3 class="text-xl dark:text-white">Your current meals in progress</h3>
+    <ul class="mb-8">
+    {% for meal in meals_in_progress %}
+        <li>
+            <div class="flex">
+                <div class="text-xl mr-5 font-bold text-blue-600 dark:text-white">
+                    {{ meal.name }}
+                </div>
+                 <a href="{% url 'update_meal_status' meal.id %}"
+                   class="fm-button text-sm self-end">
+                    Update status
+                </a>
+            </div>
+            <p class="text-sm mb-5 dark:text-white">{{ meal.get_status_display }}</p>
+        </li>
+    {% empty %}
+        <li class="dark:text-white">Wait for someone to create a meal to cook.</li>
+    {% endfor %}
+    </ul>
+
+    <h3 class="text-xl dark:text-white">Meals en route</h3>
+    <ul>
+    {% for meal in meals_en_route %}
+        <li>
+            <div class="flex group">
+                <a href="{% url 'update_meal_status' meal.id %}"
+                   class="text-xl font-bold text-blue-600 dark:text-white">
+                    {{ meal.name }}
+                </a>
+            </div>
+            {% for e in meal.eater_set.all %}
+                {% for a in e.address.all %}
+                    <p class="text-sm mb-5 dark:text-white">
+                        Deliver to: {{a.street_name}}, {{a.city}}, {{a.state}}
+                    </p>
+                {% endfor %}
+            {% endfor %}
+        </li>
+    {% empty %}
+        <li class="dark:text-white">No meals to deliver.</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

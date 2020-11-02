@@ -1,0 +1,48 @@
+{% extends 'fm/base.html' %}
+{% load fm_tags %}
+
+{% block title %} Edit Meal {% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto">
+    <h1 class="text-4xl mb-4 dark:text-white">{{meal.name}}</h1>
+
+    {% if meal.description %}
+        <label class="text-lg font-bold dark:text-white">Description:</label>
+        <p class="text-2xl mb-4 dark:text-white">{{meal.description}}</p>
+    {% endif %}
+
+    <label class="text-lg font-bold dark:text-white">Diet restrictions:</label>
+    <ul class="list-disc pl-5 mb-4">
+        {% for m in  meal.diet_restrictions.all  %}
+        <li class="text-2xl dark:text-white">{{m}}</li>
+    {% empty %}
+        <li class="text-2xl dark:text-white">No diet restrictions</li>
+    {% endfor %}
+    </ul>
+
+    <label class="text-lg font-bold dark:text-white">Food preferences:</label>
+    <ul class="list-disc pl-5 mb-4">
+       {% for m in meal.food_preferences.all %}
+        <li class="text-2xl dark:text-white">{{m}}</li>
+    {% empty %}
+        <li class="text-2xl dark:text-white">No food preferences</li>
+    {% endfor %}
+    </ul>
+
+    {% if meal.notes %}
+        <label class="text-lg font-bold dark:text-white">Notes:</label>
+        <p class="text-2xl mb-4 dark:text-white">{{meal.notes}}</p>
+    {% endif %}
+
+    <label class="text-lg font-bold dark:text-white">Status:</label>
+    <p class="text-2xl mb-5 dark:text-white">{{ meal.get_status_display }}</p>
+
+    {% if show_edit %}
+        <button class="fm-button mb-5" type="submit">
+            <a href="{% url 'edit_meal' meal.id %}">Edit</a>
+        </button>
+    {% endif %}
+</div>
+
+{% endblock %}

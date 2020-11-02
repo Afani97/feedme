@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>
+        FeedMe - {% block title %}{% endblock %}
+    </title>
+    <link rel="stylesheet" href='{% static "fm/css/tailwind.min.css" %}'>
+</head>
+<body class="dark:bg-gray-700">
+    <nav class="mx-4 mb-2 py-2">
+        <div class="flex justify-between">
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'home' %}" class="text-base sm:text-xl dark:text-white">Home</a>
+                <div class="space-x-1 sm:space-x-2">
+                    {% if request.user.eater %}
+                        <a href="{% url 'new_meal' %}" class="text-base sm:text-xl dark:text-white">New Meal</a>
+                    {% endif %}
+                    <a href="{% url 'profile' %}" class="text-base sm:text-xl dark:text-white">Profile</a>
+                    <a href="{% url 'logout' %}" class="text-base sm:text-xl dark:text-white">Logout</a>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="mx-4">
+      {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        function checkDarkMode () {
+          return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        }
+
+        function watchDarkMode () {
+          if (!window.matchMedia) return
+          window.matchMedia('(prefers-color-scheme: dark)').addListener(addDarkModeSelector)
+        }
+
+        function addDarkModeSelector () {
+          if (checkDarkMode()) {
+            document.documentElement.classList.add('mode-dark')
+          } else {
+            document.documentElement.classList.remove('mode-dark')
+          }
+        }
+
+          watchDarkMode();
+          addDarkModeSelector();
+    </script>
+</body>
+</html>

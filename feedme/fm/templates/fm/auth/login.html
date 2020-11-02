@@ -1,0 +1,41 @@
+{% extends 'fm/base.html' %}
+
+{% block title %} Login {% endblock %}
+
+{% block content %}
+  <div class="max-w-lg mx-auto">
+
+    <h1 class="text-3xl mb-4 dark:text-white">FeedMe Login</h1>
+
+    {% if form.errors %}
+      <p class="text-red-600 font-bold dark:text-red-500">Email or password are not correct</p>
+    {% endif %}
+
+    <form method="post" class="mb-8 space-y-4">
+      {% csrf_token %}
+
+      <input type="hidden" name="next" value="{{ next }}">
+
+      <div class="block sm:flex">
+        <p class="mr-2 text-xl w-full sm:w-1/5 dark:text-white" for="id_email">Email:</p>
+        <input class="fm-text-input w-full sm:w-4/5 dark:bg-gray-600 dark:placeholder-white dark:text-white" type="email" name="email" required id="id_email" placeholder="example@test.com">
+      </div>
+
+      <div class="block sm:flex">
+        <label class="mr-2 text-xl w-full sm:w-1/5 dark:text-white" for="id_password">Password:</label>
+        <input class="fm-text-input w-full sm:w-4/5 dark:bg-gray-600 dark:placeholder-white dark:text-white" type="password" name="password" required id="id_password" placeholder="**********">
+      </div>
+
+      <div class="flex justify-center">
+        <button type="submit" class="fm-button">Login</button>
+      </div>
+
+    </form>
+
+    <p class="flex justify-center">
+      <a class="text-sm underline dark:text-white" href="{% url 'signup' %}">Signup?</a>
+    </p>
+
+  </div>
+
+{% endblock %}

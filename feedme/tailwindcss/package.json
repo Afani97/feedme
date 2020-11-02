@@ -1,0 +1,21 @@
+{
+  "name": "tailwindcss",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "autoprefixer": "^9.0.0",
+    "postcss-cli": "^8.1.0",
+    "tailwindcss": "^1.8.13",
+    "tailwindcss-dark-mode": "^1.1.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "postcss": "postcss css/tailwind.css -o ../fm/static/fm/css/tailwind.css",
+    "cleancss": "cleancss -o ../fm/static/fm/css/tailwind.min.css ../fm/static/fm/css/tailwind.css",
+    "dev": "npm run postcss && npm run cleancss",
+    "build": "NODE_ENV=production npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
