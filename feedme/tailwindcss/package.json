@@ -13,7 +13,7 @@
     "postcss": "postcss css/tailwind.css -o ../fm/static/fm/css/tailwind.css",
     "cleancss": "cleancss -o ../fm/static/fm/css/tailwind.min.css ../fm/static/fm/css/tailwind.css",
     "dev": "npm run postcss && npm run cleancss",
-    "build": "NODE_ENV=production npm run dev"
+    "build": "NODE_ENV=production npm run dev && rm ../fm/static/fm/css/tailwind.css"
   },
   "keywords": [],
   "author": "",
